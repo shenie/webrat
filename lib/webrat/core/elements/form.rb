@@ -78,7 +78,11 @@ module Webrat
             a[k] = merge_hash_values(a[k], b[k])
             b.delete(k)
           when [Array, Array]
-            a[k] += b[k]
+            if a[k].first.is_a? Hash
+              a[k] = [ merge_hash_values(a[k].first, b[k].first) ]
+            else
+              a[k] += b[k]
+            end
             b.delete(k)
           end
         end
